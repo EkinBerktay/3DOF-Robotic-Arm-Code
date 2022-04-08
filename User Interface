@@ -1,1 +1,69 @@
+import tkinter as tk
+import serial
+import time
+var = 1
+ArduinoUnoSerial = serial.Serial('COM3',9600) #create Serial object *REMEMBER to check the number of COM
+print(ArduinoUnoSerial.readline()) #read the serial data and print it as line
+print("You have new message from Arduino")
 
+window = tk.Tk()
+
+
+def getEntry():
+  res = myEntryx.get()
+  print(res)
+
+  res = myEntryy.get()
+  print(res)
+
+  res = myEntryz.get()
+  print(res)
+
+
+label = tk.Label(
+  text="Please input values for the x, y and, z variables.",
+  fg="blue",
+  bg="yellow",
+  width=50,
+  height=10
+)
+
+label.pack()
+label = tk.Label(text="x coordinate:")
+label.pack()
+
+myEntryx = tk.Entry(window, width=5)
+myEntryx.pack(pady=20)
+
+label = tk.Label(text="y coordinate:")
+label.pack()
+
+myEntryy = tk.Entry(window, width=5)
+myEntryy.pack(pady=20)
+
+label = tk.Label(text="z coordinate:")
+label.pack()
+
+myEntryz = tk.Entry(window, width=5)
+myEntryz.pack(pady=20)
+
+btn = tk.Button(window, height=1, width=10, text="Submit", command=getEntry)
+btn.pack()
+
+def myClick():
+ myLabel1 = tk.Label(text="Program Terminated!!")
+ myLabel1.pack()
+ print("Program Terminated")
+ ArduinoUnoSerial.write('0'.encode())
+
+button = tk.Button(
+  text="STOP!",
+  width=25,
+  height=5,
+  bg="red",
+  fg="black",
+ command=myClick
+)
+button.pack()
+
+window.mainloop()
