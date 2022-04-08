@@ -1,0 +1,111 @@
+ int Shoulder = 11;
+  int Bicep = 25;
+  int Forearm = 25;
+  int counter = 0;
+  float t1;
+  float t2;
+  float t3;
+  float beta;
+  float r;
+  const int StepX = 2;
+  const int DirX = 5;
+  const int StepY = 3;
+  const int DirY = 6;
+  const int StepZ = 4;
+  const int DirZ = 7;
+  const int EnX = 8;
+  int null;
+void setup(){
+  pinMode(EnX, OUTPUT);	
+  pinMode(StepX,OUTPUT);
+  pinMode(DirX,OUTPUT);
+  pinMode(StepY,OUTPUT);
+  pinMode(DirY,OUTPUT);
+  pinMode(StepZ,OUTPUT);
+  pinMode(DirZ,OUTPUT);
+  Serial.begin(9600);
+  Coordinate(1,1,1);
+  digitalWrite(EnX, HIGH);
+  digitalWrite(DirZ, HIGH);
+  digitalWrite(DirY, HIGH);
+  digitalWrite(DirX, HIGH);
+  Serial.println(t1);
+  Serial.println(t2);
+  Serial.println(t3);
+    digitalWrite(EnX, HIGH);
+  digitalWrite(DirZ, HIGH);
+  digitalWrite(DirY, HIGH);
+  digitalWrite(DirX, HIGH);
+      if (t1 != null){
+    
+  for(int x = 0; x<t1/1.8; x++) { // loop for t1 steps
+   digitalWrite(StepX,HIGH);
+   delayMicroseconds(500);
+   digitalWrite(StepX,LOW);
+   delayMicroseconds(500);
+}
+  }
+  delay(1000); // delay for 1 second
+  if (t2 != null) {
+   for(int x = 0; x<t2/1.8; x++) { // loop for t2 steps
+   digitalWrite(StepY,HIGH);
+   delayMicroseconds(500);
+    digitalWrite(StepY,LOW);
+    delayMicroseconds(500);
+}
+  }
+  delay(1000); // delay for 1 second
+  if(t3 != null) {
+    
+   for(int x = 0; x<t3/1.8; x++) { // loop for t3 steps
+    digitalWrite(StepZ,HIGH);
+    delayMicroseconds(500);
+    digitalWrite(StepZ,LOW);
+    delayMicroseconds(500);
+}
+  }
+  delay(1000); // delay for 1 second
+
+}
+void loop(){
+  digitalWrite(DirZ, HIGH);
+     for(int x = 0; x<100; x++) { // loop for t3 steps
+    digitalWrite(StepZ,HIGH);
+    delayMicroseconds(500);
+    digitalWrite(StepZ,LOW);
+    delayMicroseconds(500);
+}
+  digitalWrite(DirZ, LOW);
+       for(int x = 0; x<100; x++) { // loop for t3 steps
+    digitalWrite(StepZ,HIGH);
+    delayMicroseconds(500);
+    digitalWrite(StepZ,LOW);
+    delayMicroseconds(500);
+}
+}
+
+int Coordinate(int x, int y, int z){
+  if (x>=0 && y>=0){
+    t1 =atan2(y,x);
+  }else if (x<=0 && y<=0){
+    t1 = 3.14 + atan2(y,x);
+  }else if (x>0 && y<0){
+    t1 = 2*3.14 - atan2(-y,x);
+  }else{
+    t1 = 3.14 - atan2(y,-x);
+  }
+  r = sqrt((sq(x)+sq(y))+ sq(z-Shoulder));
+  t3 = acos((-sq(Bicep)-sq(Forearm)+sq(r))/(2*Bicep*Forearm));
+  beta = acos((sq(Bicep)-sq(Forearm)-sq(r))/(-2*Bicep*r));
+  t2 = atan((z-Shoulder)/(sqrt(sq(x)+sq(y)))) - beta;
+  t1 = t1* 57.3; //angle needed for base
+  t2 = t2* 57.3; //angle needed for bicep
+  t3 = t3* 57.3; //angle needed for forearm
+  Serial.println(t1);
+  Serial.println(t2);
+  Serial.println(t3);
+  return t1,t2,t3;
+  
+}
+
+            
