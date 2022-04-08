@@ -1,4 +1,4 @@
- int Shoulder = 11;
+int Shoulder = 11;
   int Bicep = 25;
   int Forearm = 25;
   int counter = 0;
@@ -15,8 +15,14 @@
   const int DirZ = 7;
   const int EnX = 8;
   int null;
-void setup(){
-  pinMode(EnX, OUTPUT);	
+int data = 1;
+boolean replay = true;
+int LED=13;
+void setup() { 
+  Serial.begin(9600);                               
+  pinMode(LED, OUTPUT);                    
+  digitalWrite (LED, LOW);
+   pinMode(EnX, OUTPUT);  
   pinMode(StepX,OUTPUT);
   pinMode(DirX,OUTPUT);
   pinMode(StepY,OUTPUT);
@@ -66,21 +72,32 @@ void setup(){
   }
   delay(1000); // delay for 1 second
 
+  
 }
-void loop(){
+void loop() {
+while (Serial.available())    //whatever the data that is coming in serially and assigning the value to the variable “data”
+{ 
+data = Serial.read();
+}
+if (replay == true){
   digitalWrite(DirZ, HIGH);
-     for(int x = 0; x<100; x++) { // loop for t3 steps
+     for(int x = 0; x<30; x++) { // loop for t3 steps
     digitalWrite(StepZ,HIGH);
     delayMicroseconds(500);
     digitalWrite(StepZ,LOW);
     delayMicroseconds(500);
 }
   digitalWrite(DirZ, LOW);
-       for(int x = 0; x<100; x++) { // loop for t3 steps
+       for(int x = 0; x<30; x++) { // loop for t3 steps
     digitalWrite(StepZ,HIGH);
     delayMicroseconds(500);
     digitalWrite(StepZ,LOW);
     delayMicroseconds(500);
+}
+
+}
+if (data == '0'){
+replay = false;
 }
 }
 
